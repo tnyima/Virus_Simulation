@@ -1,0 +1,6 @@
+Class Susceptibles{
+    public Susceptibles(){
+    } 
+
+
+} 
