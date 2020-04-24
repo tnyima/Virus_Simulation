@@ -2,6 +2,7 @@ import comp127graphics.CanvasWindow;
 import comp127graphics.GraphicsGroup;
 
 import java.sql.PseudoColumnUsage;
+import java.util.List;
 
 public class Simulation {
 
@@ -12,7 +13,7 @@ public class Simulation {
     private VirusHost virusHost;
     private RecoveredHost recoveredHost;
     private managePersons managePersons;
-    private GraphicsGroup allPersons;
+    private List<Susceptible> allPersons;
 
     public Simulation(){
 
@@ -40,8 +41,9 @@ public class Simulation {
     }
 
     private void run(){
-        canvas.animate(() -> {
-
+        canvas.animate(() -> { for(Susceptible person: allPersons){
+            person.movePeople();
+        }
         });
     }
 
