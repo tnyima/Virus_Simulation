@@ -29,7 +29,9 @@ public class RecoveredHost extends Ellipse implements Person {
     }
 
     @Override
-    public void detectCollision(CanvasWindow canvas) {
-
+    public boolean detectCollision() {
+        return false;
     }
+
+
 }

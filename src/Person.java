@@ -10,6 +10,6 @@ public interface Person{
 
     public void moveRandomly();
 
-    public void detectCollision(CanvasWindow canvas);
+    public boolean detectCollision();
 
 }

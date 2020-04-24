@@ -26,7 +26,13 @@ public class VirusHost extends Ellipse implements Person{
 
     }
 
-    public void detectCollision(CanvasWindow canvas) {
+    @Override
+    public boolean detectCollision() {
+        return false;
+    }
+
+    public boolean detectCollision(CanvasWindow canvas) {
+        return false;
 
     }
 }

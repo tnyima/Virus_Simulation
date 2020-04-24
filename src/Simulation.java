@@ -1,4 +1,7 @@
 import comp127graphics.CanvasWindow;
+import comp127graphics.GraphicsGroup;
+
+import java.sql.PseudoColumnUsage;
 
 public class Simulation {
 
@@ -8,24 +11,38 @@ public class Simulation {
     private Susceptible susceptible;
     private VirusHost virusHost;
     private RecoveredHost recoveredHost;
+    private managePersons managePersons;
+    private GraphicsGroup allPersons;
 
     public Simulation(){
 
         canvas = new CanvasWindow("Virus Simulation",WINDOW_WIDTH,WINDOW_HEIGHT);
 
         susceptible = new Susceptible(canvas);
-        canvas.add(susceptible);
 
         virusHost = new VirusHost(canvas);
-        canvas.add(virusHost);
 
         recoveredHost = new RecoveredHost(canvas);
-        canvas.add(recoveredHost);
+
+        managePersons = new managePersons(canvas);
+
+       allPersons = managePersons.generate(10);
+
+
+
 
     }
 
     public static void main(String[] args) {
-        new Simulation();
+        Simulation simulation = new Simulation();
+        simulation.run();
 
     }
+
+    private void run(){
+        canvas.animate(() -> {
+
+        });
+    }
+
 }
