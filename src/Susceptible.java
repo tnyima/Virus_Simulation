@@ -46,7 +46,6 @@ public class Susceptible extends Ellipse implements Person{
      return false;
 
     }
-
     public void movePeople(){
         currentY += dY;
         currentX += dX;
