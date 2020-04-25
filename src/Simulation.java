@@ -1,7 +1,4 @@
 import comp127graphics.CanvasWindow;
-import comp127graphics.GraphicsGroup;
-
-import java.sql.PseudoColumnUsage;
 import java.util.List;
 
 public class Simulation {
@@ -28,8 +25,6 @@ public class Simulation {
         managePersons = new managePersons(canvas);
 
        allPersons = managePersons.generate(10);
-
-
 
 
     }
