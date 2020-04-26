@@ -1,5 +1,6 @@
 import comp127graphics.CanvasWindow;
 import comp127graphics.Ellipse;
+import comp127graphics.GraphicsObject;
 
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
@@ -38,15 +39,6 @@ public class Susceptible extends Ellipse implements Person{
     }
 
     public void moveRandomly(){
-
-
-    }
-
-    public boolean detectCollision() {
-     return false;
-
-    }
-    public void movePeople(){
         currentY += dY;
         currentX += dX;
         super.setCenter(currentX, currentY);
@@ -59,8 +51,37 @@ public class Susceptible extends Ellipse implements Person{
 
         }
 
-
     }
+
+
+    public boolean detectCollision(VirusHost virusHost) {
+
+        double leftX = currentX - 20;
+        double rightX = currentX + 20;
+        double bottomY = currentY + 20;
+        double topY = currentY - 20;
+
+        GraphicsObject topLeftCorner = canvas.getElementAt(leftX, topY);
+        GraphicsObject topRightCorner = canvas.getElementAt(rightX, topY);
+        GraphicsObject bottomLeftCorner = canvas.getElementAt(leftX, bottomY);
+        GraphicsObject bottomRightCorner = canvas.getElementAt(rightX, bottomY);
+
+        if (topRightCorner == virusHost) {
+            return true;
+        }
+        if (topLeftCorner == virusHost) {
+            return true;
+        }
+        if (bottomLeftCorner == virusHost) {
+
+            return true;
+        }
+        if (bottomRightCorner == virusHost) {
+            return true;
+        }
+        return false;
+    }
+
 }
 
 

@@ -1,4 +1,6 @@
 import comp127graphics.CanvasWindow;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation {
@@ -9,20 +11,26 @@ public class Simulation {
     private Susceptible susceptible;
     private VirusHost virusHost;
     private RecoveredHost recoveredHost;
-    private managePersons managePersons;
-    private List<Susceptible> allPersons;
+    private ManagePersons managePersons;
+    private List<Person> allPersons;
+    private List<VirusHost> virusHostList;
+    private List<Susceptible> susceptibleList;
 
     public Simulation(){
 
         canvas = new CanvasWindow("Virus Simulation",WINDOW_WIDTH,WINDOW_HEIGHT);
 
         susceptible = new Susceptible(canvas);
+        susceptibleList = new ArrayList<>();
+
 
         virusHost = new VirusHost(canvas);
+        virusHostList = new ArrayList<>();
+
 
         recoveredHost = new RecoveredHost(canvas);
 
-        managePersons = new managePersons(canvas);
+        managePersons = new ManagePersons(canvas);
 
        allPersons = managePersons.generate(10);
 
@@ -36,8 +44,10 @@ public class Simulation {
     }
 
     private void run(){
-        canvas.animate(() -> { for(Susceptible person: allPersons){
-            person.movePeople();
+        canvas.animate(() -> {
+            for(Person person: allPersons){
+            person.moveRandomly();
+            managePersons.virusCollision();
         }
         });
     }

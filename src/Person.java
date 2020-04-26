@@ -1,4 +1,4 @@
-import comp127graphics.CanvasWindow;
+import comp127graphics.GraphicsObject;
 
 public interface Person{
 
@@ -10,6 +10,5 @@ public interface Person{
 
     public void moveRandomly();
 
-    public boolean detectCollision();
 
 }
