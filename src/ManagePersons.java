@@ -17,11 +17,6 @@ public class ManagePersons {
     }
 
     public List<Person> generate(int numPeople){
-        VirusHost  virusHost = new VirusHost(canvas);
-        allPersons.add(virusHost);
-        virusHostList.add(virusHost);
-        canvas.add(virusHost);
-
         for (int i = 0; i <= numPeople; i++ ){
             Susceptible susPerson = new Susceptible(canvas);
             allPersons.add(susPerson);

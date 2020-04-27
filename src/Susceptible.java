@@ -2,17 +2,16 @@ import comp127graphics.CanvasWindow;
 import comp127graphics.Ellipse;
 import comp127graphics.GraphicsObject;
 
-import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import java.awt.*;
-import java.util.stream.DoubleStream;
+
 
 public class Susceptible extends Ellipse implements Person{
 
   private Color color = Color.BLACK;
   private final double RADIUS = 20;
-  private final double SPEED = 10;
+  private final double SPEED = 5;
   public boolean infected = false;
   public boolean recovered = false;
 
@@ -45,21 +44,14 @@ public class Susceptible extends Ellipse implements Person{
     public void moveRandomly(){
         randomPointX = canvas.getWidth() * ran.nextDouble();
         randomPointY = canvas.getHeight() * ran.nextDouble();
+
         double distX = randomPointX - currentX;
         double distY = randomPointY - currentY;
         double totalDist = Math.hypot(distX,distY);
-        this.moveBy(distX * SPEED / totalDist,
-                distY * SPEED / totalDist);
-//
-//        super.setCenter(currentX, currentY);
-//        if (currentX < 0 || currentX > canvas.getWidth()) {
-//            dX = -dX;
-//
-//        }
-//        if (currentY < 0 || currentY > canvas.getHeight()) {
-//            dY = -dY;
-//
-//        }
+
+        this.moveBy((distX * SPEED / totalDist) * 0.5,
+                (distY * SPEED / totalDist) * 0.5);
+
 
     }
 

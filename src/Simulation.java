@@ -33,7 +33,7 @@ public class Simulation {
 
         managePersons = new ManagePersons(canvas);
 
-       allPersons = managePersons.generate(10);
+       allPersons = managePersons.generate(2);
 
 
     }
@@ -47,12 +47,12 @@ public class Simulation {
     private void run(){
 
         while (true){
-            canvas.draw();
-            canvas.pause(10);
             for(Person person: allPersons) {
-                    person.moveRandomly();
+                person.moveRandomly();
 //                    managePersons.virusCollision();
             }
+            canvas.draw();
+            canvas.pause(10);
         }
     }
 
