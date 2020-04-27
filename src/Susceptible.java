@@ -15,13 +15,17 @@ public class Susceptible extends Ellipse implements Person{
   private final double SPEED = 10;
   public boolean infected = false;
   public boolean recovered = false;
-  private Random random;
+
+
   private CanvasWindow canvas;
-  private Point.Double location;
+
   private Random ran = new Random();
   private double currentX, currentY;
   double dX = SPEED;
   double dY= SPEED;
+  double randomPointX;
+  double randomPointY;
+  double delta;
 
 
     public Susceptible(CanvasWindow canvas){
@@ -39,17 +43,25 @@ public class Susceptible extends Ellipse implements Person{
     }
 
     public void moveRandomly(){
-        currentY += dY;
-        currentX += dX;
         super.setCenter(currentX, currentY);
-        if (currentX < 0 || currentX > canvas.getWidth()) {
-            dX = -dX;
-
+        if (ran.nextInt() > .5){
+            currentY += dY;
+            currentX += dX;
         }
-        if (currentY < 0 || currentY > canvas.getHeight()) {
-            dY = -dY;
-
+        else {
+            currentY -= dY;
+            currentX -= dX;
         }
+//
+//        super.setCenter(currentX, currentY);
+//        if (currentX < 0 || currentX > canvas.getWidth()) {
+//            dX = -dX;
+//
+//        }
+//        if (currentY < 0 || currentY > canvas.getHeight()) {
+//            dY = -dY;
+//
+//        }
 
     }
 

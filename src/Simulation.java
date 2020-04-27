@@ -50,8 +50,8 @@ public class Simulation {
             canvas.draw();
             canvas.pause(10);
             for(Person person: allPersons) {
-                person.moveRandomly();
-                managePersons.virusCollision();
+                    person.moveRandomly();
+//                    managePersons.virusCollision();
             }
         }
     }

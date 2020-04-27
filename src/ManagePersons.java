@@ -37,7 +37,7 @@ public class ManagePersons {
                 if(person.detectCollision(virusHost)){
                     VirusHost newVirusHost = new VirusHost(canvas);
                     newVirusHost.setPosition(person.getPosition());
-//                    allPersons.add(newVirusHost);
+                    allPersons.add(newVirusHost);
                     canvas.add(newVirusHost);
                     canvas.remove(person);
 //                    person.changeColor();
