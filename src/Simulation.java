@@ -16,6 +16,7 @@ public class Simulation {
     private List<VirusHost> virusHostList;
     private List<Susceptible> susceptibleList;
 
+
     public Simulation(){
 
         canvas = new CanvasWindow("Virus Simulation",WINDOW_WIDTH,WINDOW_HEIGHT);
@@ -44,12 +45,15 @@ public class Simulation {
     }
 
     private void run(){
-        canvas.animate(() -> {
-            for(Person person: allPersons){
-            person.moveRandomly();
-            managePersons.virusCollision();
+
+        while (true){
+            canvas.draw();
+            canvas.pause(10);
+            for(Person person: allPersons) {
+                person.moveRandomly();
+                managePersons.virusCollision();
+            }
         }
-        });
     }
 
 }

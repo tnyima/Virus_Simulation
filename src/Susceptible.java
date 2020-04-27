@@ -82,6 +82,10 @@ public class Susceptible extends Ellipse implements Person{
         return false;
     }
 
+    public void changeColor(){
+       super.setFillColor(Color.RED);
+    }
+
 }
 
 
