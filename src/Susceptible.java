@@ -43,15 +43,13 @@ public class Susceptible extends Ellipse implements Person{
     }
 
     public void moveRandomly(){
-        super.setCenter(currentX, currentY);
-        if (ran.nextInt() > .5){
-            currentY += dY;
-            currentX += dX;
-        }
-        else {
-            currentY -= dY;
-            currentX -= dX;
-        }
+        randomPointX = canvas.getWidth() * ran.nextDouble();
+        randomPointY = canvas.getHeight() * ran.nextDouble();
+        double distX = randomPointX - currentX;
+        double distY = randomPointY - currentY;
+        double totalDist = Math.hypot(distX,distY);
+        this.moveBy(distX * SPEED / totalDist,
+                distY * SPEED / totalDist);
 //
 //        super.setCenter(currentX, currentY);
 //        if (currentX < 0 || currentX > canvas.getWidth()) {
