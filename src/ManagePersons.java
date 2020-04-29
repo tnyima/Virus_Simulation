@@ -1,50 +1,44 @@
 import comp127graphics.CanvasWindow;
-import comp127graphics.GraphicsObject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class ManagePersons {
 
     private CanvasWindow canvas;
     private List<Person> allPersons = new ArrayList<>();
-    private List<Susceptible> susceptibleList = new ArrayList<>();
-    private List<VirusHost> virusHostList = new ArrayList<>();
+
+
 
     public ManagePersons(CanvasWindow canvas){
         this.canvas = canvas;
     }
 
     public List<Person> generate(int numPeople){
-        for (int i = 0; i <= numPeople; i++ ){
-            Susceptible susPerson = new Susceptible(canvas);
-            allPersons.add(susPerson);
-            susceptibleList.add(susPerson);
-            canvas.add(susPerson);
+        for (int i = 0; i < numPeople; i++ ){
+            Person person = new Person(canvas);
+            allPersons.add(person);
+            canvas.add(person);
         }
+        allPersons.get(0).makeInfected();
         return allPersons;
     }
 
-    public void virusCollision(){
-        for(Susceptible person: susceptibleList){
-            for(VirusHost virusHost : virusHostList){
-                if(person.detectCollision(virusHost)){
-                    VirusHost newVirusHost = new VirusHost(canvas);
-                    newVirusHost.setPosition(person.getPosition());
-                    allPersons.add(newVirusHost);
-                    canvas.add(newVirusHost);
-                    canvas.remove(person);
-//                    person.changeColor();
+    /** Checks if a persons collided with a person who is infected and changes
+     *  their infected state and color if they do */
+    public void checkInfectedCollision(Person person){
+       if (!person.infected){
+           for (Person secondPerson  : allPersons){
+               if (person.detectCollision() == secondPerson){
+                 if (secondPerson.infected){
+                     person.makeInfected();
+                 }
+               }
 
-                }
-            }
-        }
+           }
+       }
 
     }
-
-
-
-
-
 }
+
+
