@@ -1,6 +1,7 @@
 import comp127graphics.CanvasWindow;
 import comp127graphics.Ellipse;
 import comp127graphics.GraphicsObject;
+import comp127graphics.Rectangle;
 
 import java.util.Random;
 
@@ -38,6 +39,10 @@ public class Person extends Ellipse{
     public void checkHealthStatus() {
 
     }
+    public boolean getInfected(){
+        return infected = true;
+    }
+
 
     public void moveRandomly(){
         randomPointX = canvas.getWidth() * ran.nextDouble();
@@ -54,31 +59,32 @@ public class Person extends Ellipse{
     }
 
 
-    public Object detectCollision() {
+    public GraphicsObject detectCollision() {
+        comp127graphics.Point top = new comp127graphics.Point(currentX + RADIUS, currentY);
+        comp127graphics.Point right = new comp127graphics.Point(currentX + (2 * RADIUS), currentY + RADIUS);
+        comp127graphics.Point left = new comp127graphics.Point(currentX, currentY + RADIUS);
+        comp127graphics.Point bottom = new comp127graphics.Point(currentX + RADIUS, currentY + (2 * RADIUS));
 
-        double leftX = currentX - radius;
-        double rightX = currentX + radius;
-        double bottomY = currentY + radius;
-        double topY = currentY - radius;
+        if (canvas.getElementAt(top) instanceof Ellipse) { //top
+            System.out.println("Top was hit.");
+            return canvas.getElementAt(top);
 
-        GraphicsObject topLeftCorner = canvas.getElementAt(leftX, topY);
-        GraphicsObject topRightCorner = canvas.getElementAt(rightX, topY);
-        GraphicsObject bottomLeftCorner = canvas.getElementAt(leftX, bottomY);
-        GraphicsObject bottomRightCorner = canvas.getElementAt(rightX, bottomY);
-
-        if (topRightCorner != null) {
-            return topRightCorner;
         }
-        if (topLeftCorner != null) {
-            return topLeftCorner;
+        else if (canvas.getElementAt(right) instanceof Ellipse) { //right
+            System.out.println("Right was hit.");
+            return canvas.getElementAt(right);
         }
-        if (bottomLeftCorner != null) {
-            return bottomLeftCorner;
+        else if(canvas.getElementAt(left) instanceof comp127graphics.Rectangle) { //left
+            System.out.println("Left was hit.");
+            return canvas.getElementAt(left);
         }
-        if (bottomRightCorner != null) {
-            return bottomRightCorner;
+        else if(canvas.getElementAt(bottom) instanceof Rectangle) { //bottom
+            System.out.println("Bottom was hit.");
+            return canvas.getElementAt(bottom);
         }
-        return null;
+        else{
+            return null;
+        }
     }
 
     private void changeColor(Color color){

@@ -2,6 +2,7 @@ import comp127graphics.CanvasWindow;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Simulation {
 
@@ -22,7 +23,11 @@ public class Simulation {
 
         managePersons = new ManagePersons(canvas);
 
-       allPersons = managePersons.generate(2);
+        Scanner numPopulation = new Scanner(System.in);
+        System.out.println("What is the sample size?: ");
+        int sampleSize = numPopulation.nextInt();
+
+       allPersons = managePersons.generate(sampleSize);
 
 
     }

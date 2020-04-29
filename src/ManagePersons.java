@@ -27,16 +27,14 @@ public class ManagePersons {
     /** Checks if a persons collided with a person who is infected and changes
      *  their infected state and color if they do */
     public void checkInfectedCollision(Person person){
-       if (!person.infected){
-           for (Person secondPerson  : allPersons){
-               if (person.detectCollision() == secondPerson){
-                 if (secondPerson.infected){
-                     person.makeInfected();
-                 }
-               }
+        if (person.getInfected()){
+            for (Person secondPerson : allPersons){
+                if (person.detectCollision() == secondPerson){
+                    secondPerson.makeInfected();
+                }
+            }
 
-           }
-       }
+        }
 
     }
 }
