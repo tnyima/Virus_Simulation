@@ -2,6 +2,7 @@ import comp127graphics.CanvasWindow;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Simulation {
 
@@ -21,8 +22,9 @@ public class Simulation {
         canvas = new CanvasWindow("Virus Simulation",WINDOW_WIDTH,WINDOW_HEIGHT);
 
         managePersons = new ManagePersons(canvas);
-
-       allPersons = managePersons.generate(2);
+        Scanner scan = new Scanner(System.in);
+        System.out.println("What is your sample size");
+       allPersons = managePersons.generate(scan.nextInt());
 
 
     }
@@ -38,6 +40,7 @@ public class Simulation {
         while (true){
             for(Person person: allPersons) {
                 person.moveRandomly();
+                managePersons.checkHealthStatus(person);
                 managePersons.checkInfectedCollision(person);
             }
             canvas.draw();
