@@ -1,29 +1,32 @@
 import comp127graphics.CanvasWindow;
 import comp127graphics.Ellipse;
 import comp127graphics.GraphicsObject;
+import comp127graphics.Rectangle;
+import comp127graphics.Point;
 
 import java.util.Random;
 
 import java.awt.*;
 
 
-/** This class is responsible for creating a peron*/
 public class Person extends Ellipse{
 
-
+    private static final double
+            WIGGLINESS = 0.2,
+            WANDER_FROM_CENTER = 60000;
   private final double SPEED = 5;
-
   public boolean infected = false;
   public boolean recovered = false;
-
-
   private Color color = Color.BLACK;
   private CanvasWindow canvas;
+  public int recoveryTime = 500;
+    private double direction;
 
   private Random ran = new Random();
-
-  public int recoveryTime = 1000;
-  private double radius;
+  private double currentX, currentY;
+  private double dX = SPEED, dY= SPEED;
+  private double randomPointX, randomPointY;
+  private double delta, radius;
 
 
     public Person(CanvasWindow canvas){
@@ -31,34 +34,50 @@ public class Person extends Ellipse{
      super(canvas.getWidth() * .4 , canvas.getHeight() * .5, 20,20);
      super.setFillColor(color);
      super.setPosition(canvas.getWidth() * ran.nextDouble(), canvas.getHeight() * ran.nextDouble());
+     this.currentX = getX();
+     this.currentY = getY();
      this.canvas = canvas;
      radius = this.getWidth() /2;
 
     }
 
-    /** Moves persons randomly on screen my creating points on the screen that they move to */
-    public void moveRandomly(){
+    /** This allows the person to move freely around the canvas. The movement was credited to the
+     * cell absorption lab. */
+    public void moveRandomly(Point centerOfGravity){
 
-        double randomPointX = canvas.getWidth() * ran.nextDouble();
-        double randomPointY = canvas.getHeight() * ran.nextDouble();
+//        double randomPointX = canvas.getWidth() * ran.nextDouble();
+//        double randomPointY = canvas.getHeight() * ran.nextDouble();
+//
+//        double distX = randomPointX - getX();
+//        double distY = randomPointY - getY();
+//        double totalDist = Math.hypot(distX,distY);
+//
+//        // Sets new goal
+//        double distToGoal = Math.hypot(
+//                randomPointX - getX(),
+//                randomPointY - getY());
+//        if (distToGoal < 40 * 40 || ran.nextDouble() < 0.5 / 10){
+//            distX = (canvas.getWidth() * ran.nextDouble())  - getX();
+//            distY = (canvas.getHeight() * ran.nextDouble())  - getY();
+//        }
+//
+//        this.moveBy((distX * SPEED / totalDist) * 0.5,
+//                (distY * SPEED / totalDist) * 0.5);
+        this.moveBy(Math.cos(direction), Math.sin(direction));
 
-        double distX = randomPointX - getX();
-        double distY = randomPointY - getY();
-        double totalDist = Math.hypot(distX,distY);
+        double distToCenter = this.getCenter().distance(centerOfGravity);
+        double angleToCenter = centerOfGravity.subtract(this.getCenter()).angle();
+        double turnTowardCenter = normalizeRadians(angleToCenter - direction);
 
-        // Sets new goal
-        double distToGoal = Math.hypot(
-                randomPointX - getX(),
-                randomPointY - getY());
-        if (distToGoal < 40 * 40 || ran.nextDouble() < 0.5 / 10){
-            distX = (canvas.getWidth() * ran.nextDouble())  - getX();
-            distY = (canvas.getHeight() * ran.nextDouble())  - getY();
-        }
+        direction = normalizeRadians(
+                direction
+                        + (Math.random() - 0.5) * WIGGLINESS
+                        + turnTowardCenter * Math.tanh(distToCenter / WANDER_FROM_CENTER));
+    }
 
-        this.moveBy((distX * SPEED / totalDist) * 0.5,
-                (distY * SPEED / totalDist) * 0.5);
-
-
+    private static double normalizeRadians(double theta) {
+        double pi2 = Math.PI * 2;
+        return ((theta + Math.PI) % pi2 + pi2) % pi2 - Math.PI;
     }
     /** Returns graphic objects when coming in contact with persons*/
     public Object detectCollision() {
@@ -89,7 +108,7 @@ public class Person extends Ellipse{
     }
     /** Changes the color of the person*/
     private void changeColor(Color color){
-       super.setFillColor(color);
+        super.setFillColor(color);
     }
     /** Changes the infected state to true of the person and changes their color to red */
     public void makeInfected(){
@@ -102,7 +121,6 @@ public class Person extends Ellipse{
         this.infected = false;
         changeColor(Color.GREEN);
     }
-
 
 
 
