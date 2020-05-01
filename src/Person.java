@@ -2,6 +2,7 @@ import comp127graphics.CanvasWindow;
 import comp127graphics.Ellipse;
 import comp127graphics.GraphicsObject;
 import comp127graphics.Rectangle;
+import comp127graphics.Point;
 
 import java.util.Random;
 
@@ -10,12 +11,16 @@ import java.awt.*;
 
 public class Person extends Ellipse{
 
-  private final double RADIUS = 20;
+    private static final double
+            WIGGLINESS = 0.2,
+            WANDER_FROM_CENTER = 60000;
   private final double SPEED = 5;
   public boolean infected = false;
   public boolean recovered = false;
   private Color color = Color.BLACK;
   private CanvasWindow canvas;
+  public int recoveryTime = 500;
+    private double direction;
 
   private Random ran = new Random();
   private double currentX, currentY;
@@ -36,65 +41,87 @@ public class Person extends Ellipse{
 
     }
 
-    public void checkHealthStatus() {
+    /** This allows the person to move freely around the canvas. The movement was credited to the
+     * cell absorption lab. */
+    public void moveRandomly(Point centerOfGravity){
 
-    }
-    public boolean getInfected(){
-        return infected = true;
-    }
+//        double randomPointX = canvas.getWidth() * ran.nextDouble();
+//        double randomPointY = canvas.getHeight() * ran.nextDouble();
+//
+//        double distX = randomPointX - getX();
+//        double distY = randomPointY - getY();
+//        double totalDist = Math.hypot(distX,distY);
+//
+//        // Sets new goal
+//        double distToGoal = Math.hypot(
+//                randomPointX - getX(),
+//                randomPointY - getY());
+//        if (distToGoal < 40 * 40 || ran.nextDouble() < 0.5 / 10){
+//            distX = (canvas.getWidth() * ran.nextDouble())  - getX();
+//            distY = (canvas.getHeight() * ran.nextDouble())  - getY();
+//        }
+//
+//        this.moveBy((distX * SPEED / totalDist) * 0.5,
+//                (distY * SPEED / totalDist) * 0.5);
+        this.moveBy(Math.cos(direction), Math.sin(direction));
 
+        double distToCenter = this.getCenter().distance(centerOfGravity);
+        double angleToCenter = centerOfGravity.subtract(this.getCenter()).angle();
+        double turnTowardCenter = normalizeRadians(angleToCenter - direction);
 
-    public void moveRandomly(){
-        randomPointX = canvas.getWidth() * ran.nextDouble();
-        randomPointY = canvas.getHeight() * ran.nextDouble();
-
-        double distX = randomPointX - currentX;
-        double distY = randomPointY - currentY;
-        double totalDist = Math.hypot(distX,distY);
-
-        this.moveBy((distX * SPEED / totalDist) * 0.5,
-                (distY * SPEED / totalDist) * 0.5);
-
-
-    }
-
-
-    public GraphicsObject detectCollision() {
-        comp127graphics.Point top = new comp127graphics.Point(currentX + RADIUS, currentY);
-        comp127graphics.Point right = new comp127graphics.Point(currentX + (2 * RADIUS), currentY + RADIUS);
-        comp127graphics.Point left = new comp127graphics.Point(currentX, currentY + RADIUS);
-        comp127graphics.Point bottom = new comp127graphics.Point(currentX + RADIUS, currentY + (2 * RADIUS));
-
-        if (canvas.getElementAt(top) instanceof Ellipse) { //top
-            System.out.println("Top was hit.");
-            return canvas.getElementAt(top);
-
-        }
-        else if (canvas.getElementAt(right) instanceof Ellipse) { //right
-            System.out.println("Right was hit.");
-            return canvas.getElementAt(right);
-        }
-        else if(canvas.getElementAt(left) instanceof comp127graphics.Rectangle) { //left
-            System.out.println("Left was hit.");
-            return canvas.getElementAt(left);
-        }
-        else if(canvas.getElementAt(bottom) instanceof Rectangle) { //bottom
-            System.out.println("Bottom was hit.");
-            return canvas.getElementAt(bottom);
-        }
-        else{
-            return null;
-        }
+        direction = normalizeRadians(
+                direction
+                        + (Math.random() - 0.5) * WIGGLINESS
+                        + turnTowardCenter * Math.tanh(distToCenter / WANDER_FROM_CENTER));
     }
 
+    private static double normalizeRadians(double theta) {
+        double pi2 = Math.PI * 2;
+        return ((theta + Math.PI) % pi2 + pi2) % pi2 - Math.PI;
+    }
+    /** Returns graphic objects when coming in contact with persons*/
+    public Object detectCollision() {
+
+        double leftX = getX() - radius;
+        double rightX = getX() + radius;
+        double bottomY = getY() + radius;
+        double topY = getY() - radius;
+
+        GraphicsObject topLeftCorner = canvas.getElementAt(leftX, topY);
+        GraphicsObject topRightCorner = canvas.getElementAt(rightX, topY);
+        GraphicsObject bottomLeftCorner = canvas.getElementAt(leftX, bottomY);
+        GraphicsObject bottomRightCorner = canvas.getElementAt(rightX, bottomY);
+
+        if (topRightCorner != null) {
+            return topRightCorner;
+        }
+        if (topLeftCorner != null) {
+            return topLeftCorner;
+        }
+        if (bottomLeftCorner != null) {
+            return bottomLeftCorner;
+        }
+        if (bottomRightCorner != null) {
+            return bottomRightCorner;
+        }
+        return null;
+    }
+    /** Changes the color of the person*/
     private void changeColor(Color color){
-       super.setFillColor(color);
+        super.setFillColor(color);
     }
-
+    /** Changes the infected state to true of the person and changes their color to red */
     public void makeInfected(){
         this.infected = true;
         changeColor(Color.RED);
     }
+    /** Changes the infected state to false and recovered to true of the person and changes their color to green */
+    public void makeRecovered(){
+        this.recovered = true;
+        this.infected = false;
+        changeColor(Color.GREEN);
+    }
+
 
 
 
