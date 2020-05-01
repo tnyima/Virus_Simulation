@@ -29,6 +29,9 @@ public class Person extends Ellipse{
   private double delta, radius;
 
 
+  public int infectiousPeriod = 5;
+
+
     public Person(CanvasWindow canvas){
 
      super(canvas.getWidth() * .4 , canvas.getHeight() * .5, 20,20);
@@ -121,8 +124,6 @@ public class Person extends Ellipse{
         this.infected = false;
         changeColor(Color.GREEN);
     }
-
-
 
 
 }

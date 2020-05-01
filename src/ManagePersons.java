@@ -2,16 +2,21 @@ import comp127graphics.CanvasWindow;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class ManagePersons {
 
     private CanvasWindow canvas;
     private List<Person> allPersons = new ArrayList<>();
+    private double transmissionRate = 0.5;
+    private Random ran = new Random();
+
 
 
 
     public ManagePersons(CanvasWindow canvas){
         this.canvas = canvas;
+
     }
     public List<Person> generate(int numPeople){
         for (int i = 0; i < numPeople; i++ ){
@@ -30,7 +35,10 @@ public class ManagePersons {
             for (Person secondPerson  : allPersons){
                 if (person.detectCollision() == secondPerson){
                     if (secondPerson.infected){
-                        person.makeInfected();
+                        double chance = ran.nextDouble();
+                        System.out.println(secondPerson.infectiousPeriod);
+                        if (secondPerson.infectiousPeriod > 0 && chance < 0.1 )
+                            person.makeInfected();
                     }
                 }
 
@@ -44,7 +52,9 @@ public class ManagePersons {
     public void checkHealthStatus(Person person) {
         if (person.infected) {
             int like = person.recoveryTime--;
-            System.out.println(like);
+            if (!(person.infectiousPeriod <= 0)) {
+                person.infectiousPeriod--;
+            }
         }
         if (person.recoveryTime == 0) {
             person.makeRecovered();
