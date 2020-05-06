@@ -26,7 +26,7 @@ public class ManagePersons{
             allPersons.add(person);
             canvas.add(person);
         }
-        allPersons.get(0).makeInfected();
+        allPersons.get(0).makeInfected(time);
         return allPersons;
     }
 
@@ -38,7 +38,7 @@ public class ManagePersons{
                 if (person.detectCollision() == secondPerson && secondPerson.infected){
                         double chance = ran.nextDouble();
                         if (secondPerson.infectiousPeriod > time && chance < transmissionRate) {
-                            person.makeInfected();
+                            person.makeInfected(time);
                         }
                 }
             }
@@ -50,10 +50,13 @@ public class ManagePersons{
     /** Updates the recovery time of a person, and change their status to recovered when their recovery
      * time reaches zero
      * @return*/
-    public void checkHealthStatus(Person person, long time) {
-        if (person.recoveryTime == time && person.infected) {
-            person.makeRecovered();
-        }
+    public void checkHealthStatus(Person person, long currentTime, long startTime) {
+         if(person.infected) {
+             long timeWhenRecovered = person.infectedTime + (person.recoveryTime);
+             if (timeWhenRecovered == currentTime) {
+                 person.makeRecovered();
+             }
+         }
     }
 
 }

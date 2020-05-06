@@ -21,6 +21,7 @@ public class Person extends Ellipse{
     private Random ran = new Random();
     public double currentX, currentY;
     private double radius;
+    public long infectedTime;
 
     public Person(CanvasWindow canvas){
         super(canvas.getWidth() * .4 , canvas.getHeight() * .5, 20,20);
@@ -87,8 +88,9 @@ public class Person extends Ellipse{
     }
 
     /** Changes the infected state to true of the person and changes their color to red */
-    public void makeInfected(){
+    public void makeInfected(long time){
         this.infected = true;
+        this.infectedTime = time;
         changeColor(Color.RED);
     }
 
