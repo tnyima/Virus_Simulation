@@ -1,6 +1,6 @@
 # Virus_Simulation
 
-![](/Users/tenzinnyima/Desktop/Screen Shot 2020-05-05 at 9.49.01 PM.png)
+![github-small](/Users/tenzinnyima/Desktop/Screen Shot 2020-05-05 at 9.49.01 PM.png)
 
 /Users/tenzinnyima/Desktop/Screen Shot 2020-05-05 at 9.48.46 PM.png
 
