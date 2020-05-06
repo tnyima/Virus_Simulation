@@ -15,8 +15,8 @@ public class Person extends Ellipse{
     public boolean recovered = false;
     private Color color = Color.BLACK;
     private CanvasWindow canvas;
-    public int recoveryTime;
-    public int infectiousPeriod;
+    public long recoveryTime;
+    public long infectiousPeriod;
     private double direction;
     private Random ran = new Random();
     public double currentX, currentY;
@@ -103,7 +103,7 @@ public class Person extends Ellipse{
      * this method sets the recovered time
      * @param time
      */
-    public void setRecoveredTime(int time){
+    public void setRecoveredTime(long time){
         this.recoveryTime = time;
     }
 
@@ -111,7 +111,7 @@ public class Person extends Ellipse{
      * This method sets the infectious period.
      * @param infectiousPeriod
      */
-    public void setInfectiousPeriod(int infectiousPeriod){
+    public void setInfectiousPeriod(long infectiousPeriod){
         this.infectiousPeriod = infectiousPeriod;
     }
 

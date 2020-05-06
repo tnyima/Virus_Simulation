@@ -18,7 +18,7 @@ public class ManagePersons{
     }
 
     /** Takes in a number and generates the sample population based of that number*/
-    public List<Person> generate(int numPeople, int time, int infectiousPeriod){
+    public List<Person> generate(int numPeople, long time, long infectiousPeriod){
         for (int i = 0; i < numPeople; i++ ){
             Person person = new Person(canvas);
             person.setRecoveredTime(time);
@@ -32,32 +32,26 @@ public class ManagePersons{
 
     /** Checks if a persons collided with a person who is infected and changes
      *  their infected state and color if they do */
-    public void checkInfectedCollision(Person person, double transmissionRate){
+    public void checkInfectedCollision(Person person, double transmissionRate, long time){
         if (!person.infected && !person.recovered){
             for (Person secondPerson  : allPersons){
-                if (person.detectCollision() == secondPerson){
-                    if (secondPerson.infected){
+                if (person.detectCollision() == secondPerson && secondPerson.infected){
                         double chance = ran.nextDouble();
-                        if (secondPerson.infectiousPeriod > 0 && chance < transmissionRate)
+                        if (secondPerson.infectiousPeriod > time && chance < transmissionRate) {
                             person.makeInfected();
-                    }
+                        }
                 }
-
             }
+
         }
     }
+
 
     /** Updates the recovery time of a person, and change their status to recovered when their recovery
      * time reaches zero
      * @return*/
-    public void checkHealthStatus(Person person) {
-        if (person.infected) {
-            person.recoveryTime--;
-            if (!(person.infectiousPeriod <= 0)) {
-                person.infectiousPeriod--;
-            }
-        }
-        if (person.recoveryTime == 0) {
+    public void checkHealthStatus(Person person, long time) {
+        if (person.recoveryTime == time && person.infected) {
             person.makeRecovered();
         }
     }

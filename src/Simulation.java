@@ -2,6 +2,12 @@ import comp127graphics.CanvasWindow;
 import comp127graphics.Point;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.jfree.chart.*; // you have to add Jfree to your library to run have the graph method work
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.ApplicationFrame;
 
 
 /**
@@ -16,6 +22,8 @@ public class Simulation {
     private double transmissionRate;
     private int recoveryTime;
     private int infectiousPeriod;
+    private long elapsedTime = 0;
+    private DefaultCategoryDataset dataset;
 
     public Simulation(){
         canvas = new CanvasWindow("Virus Simulation",WINDOW_WIDTH,WINDOW_HEIGHT);
@@ -49,21 +57,51 @@ public class Simulation {
     public static void main(String[] args) {
         Simulation simulation = new Simulation();
         simulation.run();
+
     }
 
     /**
      * This method runs the program.
      */
     private void run(){
-        while (true){
+        long startTime = System.nanoTime();
+        int numInfected = 0;
+        while (allPersons.stream().noneMatch(person -> person.infected)){
+            // Try to decompose this its too much in one method
             for(Person person: allPersons) {
                 Point canvasCenter = new Point(canvas.getWidth() / 2.0, canvas.getHeight() / 2.0);
                 person.moveRandomly(canvasCenter);
-                managePersons.checkHealthStatus(person);
-                managePersons.checkInfectedCollision(person, transmissionRate);
+                managePersons.checkHealthStatus(person,elapsedTime);
+                managePersons.checkInfectedCollision(person, transmissionRate, elapsedTime);
+                if (person.infected){
+                    numInfected ++;
+                    addToDataSet(numInfected, elapsedTime, "Infected");
+                }
             }
             canvas.draw();
             canvas.pause(10);
-        }
+            long endTime = System.nanoTime();
+            elapsedTime = (endTime - startTime) / 1000000000;}
+        graph();
+    }
+
+    public void addToDataSet(int numPersons, long time, String stringName){
+        dataset = new DefaultCategoryDataset();
+        dataset.addValue(numPersons, stringName, String.valueOf(time));
+    }
+
+    public void graph(){
+     JFreeChart lineChart = ChartFactory.createLineChart("Virus Simulation",
+             "Time", "Number of People", dataset, PlotOrientation.VERTICAL,
+             false, false, false);
+     ChartPanel chartPanel = new ChartPanel(lineChart);
+     chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );
+     ApplicationFrame frame = new ApplicationFrame("Virus Simulation");
+     frame.setContentPane(chartPanel);
+     frame.pack();
+     frame.setVisible(true);
+
+
+
     }
 }
