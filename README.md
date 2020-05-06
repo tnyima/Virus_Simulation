@@ -1,5 +1,11 @@
 # Virus_Simulation
 
+/Users/tenzinnyima/Desktop/Screen Shot 2020-05-05 at 9.49.01 PM.png
+
+/Users/tenzinnyima/Desktop/Screen Shot 2020-05-05 at 9.48.46 PM.png
+
+
+
 
 This is the virus simulation. It is a program meant to simulate how a virus spreads in a population. The program is based of the SIR model, where the main variables affecting the spread of a virus or disease are population density, transmission rate and infectious period of the disease. This is a interactive simulation. 
 
