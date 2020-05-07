@@ -9,15 +9,20 @@ import java.util.Random;
  * the people in the simulation had collided with an infected person.
  */
 public class ManagePersons{
+
     private CanvasWindow canvas;
     private List<Person> allPersons = new ArrayList<>();
     private Random ran = new Random();
+
+
+    /** Initializes canvas variable */
     public ManagePersons(CanvasWindow canvas){
         this.canvas = canvas;
-
     }
 
-    /** Takes in a number and generates the sample population based of that number*/
+
+    /** Takes in a number and generates the sample population based of that number. The first person in the list
+     * is set the first infected. */
     public List<Person> generate(int numPeople, long time, long infectiousPeriod){
         for (int i = 0; i < numPeople; i++ ){
             Person person = new Person(canvas);
@@ -30,27 +35,26 @@ public class ManagePersons{
         return allPersons;
     }
 
-    /** Checks if a persons collided with a person who is infected and changes
-     *  their infected state and color if they do */
-    public void checkInfectedCollision(Person person, double transmissionRate, long time){
+
+
+    /** Checks if a persons collided with a person who is infected and changes their infected state and color if
+     * they do. Checks for infectious period and transmission rate */
+    public void checkInfectedCollision(Person person, double transmissionRate, long currentTime){
         if (!person.infected && !person.recovered){
             for (Person secondPerson  : allPersons){
                 if (person.detectCollision() == secondPerson && secondPerson.infected){
                         double chance = ran.nextDouble();
-                        if (secondPerson.infectiousPeriod > time && chance < transmissionRate) {
-                            person.makeInfected(time);
+                        if (secondPerson.infectiousPeriod > currentTime && chance <= transmissionRate)
+                            person.makeInfected(currentTime);
                         }
                 }
             }
 
         }
-    }
 
-
-    /** Updates the recovery time of a person, and change their status to recovered when their recovery
-     * time reaches zero
-     * @return*/
-    public void checkHealthStatus(Person person, long currentTime, long startTime) {
+    /** Updates the recovery time of a person, and changes their status to recovered when
+     * their projected recovery time is reached. */
+    public void checkHealthStatus(Person person, long currentTime) {
          if(person.infected) {
              long timeWhenRecovered = person.infectedTime + (person.recoveryTime);
              if (timeWhenRecovered == currentTime) {
