@@ -4,8 +4,8 @@ import java.util.Random;
 import java.awt.*;
 
 /**
- * This class creates a person using Ellipse. It also has methods that checks for collisions and allows the person to
- * move around the canvas.
+ * This class creates a person using Ellipse. It also has methods that checks for
+ * collisions and allows the person to move around the canvas.
  */
 public class Person extends Ellipse{
     private static final double
@@ -13,20 +13,27 @@ public class Person extends Ellipse{
             WANDER_FROM_CENTER = 60000;
     public boolean infected = false;
     public boolean recovered = false;
-    private Color color = Color.BLACK;
     private CanvasWindow canvas;
     public long recoveryTime;
     public long infectiousPeriod;
     private double direction;
-    private Random ran = new Random();
     public double currentX, currentY;
     private double radius;
     public long infectedTime;
 
+
+    /** Initializes person object, by creating ellipse object, setting color, and sets them in a
+     * random position on canvas*/
+
     public Person(CanvasWindow canvas){
-        super(canvas.getWidth() * .4 , canvas.getHeight() * .5, 20,20);
+
+        super(canvas.getWidth() * .4 , canvas.getHeight() * .5, 30,30);
+        Color color = Color.BLACK;
         super.setFillColor(color);
+
+        Random ran = new Random();
         super.setPosition(canvas.getWidth() * ran.nextDouble(), canvas.getHeight() * ran.nextDouble());
+
         this.currentX = getX();
         this.currentY = getY();
         this.canvas = canvas;
@@ -34,7 +41,7 @@ public class Person extends Ellipse{
 
     }
 
-    /** This allows the person to move freely around the canvas. The movement was credited to the
+    /** This allows the person to move freely around the canvas. The movement is credited to the
      * cell absorption lab. */
     public void moveRandomly(Point centerOfGravity){
         this.moveBy(Math.cos(direction), Math.sin(direction));
@@ -48,10 +55,7 @@ public class Person extends Ellipse{
     }
 
     /**
-     * This method helps our method moveRandomly method.
-     * @param theta
-     * @return
-     */
+     * This method helps our method moveRandomly method. */
     private static double normalizeRadians(double theta) {
         double pi2 = Math.PI * 2;
         return ((theta + Math.PI) % pi2 + pi2) % pi2 - Math.PI;
@@ -87,7 +91,8 @@ public class Person extends Ellipse{
         super.setFillColor(color);
     }
 
-    /** Changes the infected state to true of the person and changes their color to red */
+    /** Changes the infected state to true of the person and changes their color to red. Records the time at which
+     * they were infected*/
     public void makeInfected(long time){
         this.infected = true;
         this.infectedTime = time;
@@ -102,17 +107,13 @@ public class Person extends Ellipse{
     }
 
     /**
-     * this method sets the recovered time
-     * @param time
-     */
+     * This method sets the recovered time*/
     public void setRecoveredTime(long time){
         this.recoveryTime = time;
     }
 
     /**
-     * This method sets the infectious period.
-     * @param infectiousPeriod
-     */
+     * This method sets the infectious period. */
     public void setInfectiousPeriod(long infectiousPeriod){
         this.infectiousPeriod = infectiousPeriod;
     }
