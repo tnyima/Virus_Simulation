@@ -10,5 +10,5 @@
 
   The user should run multiple instances of the simulation, changing the numbers they input each time to observe how these different variables affect the spread of a disease or virus. 
 
-Credit to Cell Simulation for helping us with the object's movements.
+Credit to Cell Obsorbtion Lab for helping us with the object's movements.
 Credit to knowm.org for assisting us with creating the graph for the simulation. 
