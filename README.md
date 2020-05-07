@@ -6,7 +6,7 @@
   
   The program represents people as circles that come in 3 colors. Black for a susceptible, i.e none infected person who can get infected, red for an infected individual and green for a recovered individual. These people will be randomly moving on screen; they might appear to moving off screen at first, but they eventually turn back as they reach the borders of the screen. Individuals will change their colors as they get infected and as they recover. 
   
-  The simulation will also create a graph with the data inputted by the user that shows the rate of the infected and recoverd people. The x-value for the graph is the time and y value will either be recovered or infected. Since there will be two lines showing the infected and recovered people. The graph is a live visual of how the simulation is works. 
+  The simulation will also create a graph with the data inputted by the user that shows the rate of the infected and recoverd people. The x-value for the graph is the time and y value will either be recovered or infected. Since there will be two lines showing the infected and recovered people. The time is represented by nanoseconds, that is converted to seconds. On the graph, time will increased to show a live visual of how the simulation works. 
 
   The user should run multiple instances of the simulation, changing the numbers they input each time to observe how these different variables affect the spread of a disease or virus. 
 
